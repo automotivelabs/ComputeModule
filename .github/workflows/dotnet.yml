@@ -20,9 +20,12 @@ jobs:
         dotnet-version: 5.0.x
     - name: Restore dependencies
       run: dotnet restore
+      working-directory: ./src/
     - name: Build
-      run: dotnet build ExpressionEvaluator.sln 
+      run: dotnet build ExpressionEvaluator.sln
+      working-directory: ./src/
     - name: Test
       run: dotnet test
+      working-directory: ./src/
 
 
