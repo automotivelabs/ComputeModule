@@ -6,7 +6,6 @@ namespace ConvertUtilTests
 {
     public class ConvertUtilsTest1
     {
-        //Test pipeline for test
         [Fact]
         public void Test1()
         {
