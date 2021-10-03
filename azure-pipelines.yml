@@ -39,6 +39,7 @@ steps:
     Contents: |
       src\Converters\ConvertUtils\bin\**\*.nupkg
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
+    flattenFolders: true
 - task: PublishBuildArtifacts@1
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
