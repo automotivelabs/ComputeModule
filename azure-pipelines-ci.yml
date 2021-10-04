@@ -18,7 +18,7 @@ variables:
 
 steps:
 
-- script: echo $(GitVersion.SemVer)
+
 - task: NuGetToolInstaller@1
 
 - task: NuGetCommand@2
@@ -29,6 +29,9 @@ steps:
   inputs:
     useConfigFile: true
     configFilePath: 'GitVersion.yml'
+    additionalArguments: 
+    
+- script: echo $(GitVersion.SemVer)
 - task: VSBuild@1
   inputs:
     solution: '$(solution)'
