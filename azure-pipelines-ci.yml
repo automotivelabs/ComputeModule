@@ -25,9 +25,6 @@ steps:
   inputs:
     restoreSolution: '$(solution)'
 
-- task: gitversion/setup@0
-  inputs:
-    versionSpec: '1.x'
 - task: gitversion/execute@0
   inputs:
     useConfigFile: true
