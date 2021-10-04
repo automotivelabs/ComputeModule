@@ -6,6 +6,14 @@
 trigger:
 - main
 
+# Schedule trigger sample
+# schedules:
+#  - cron: string # cron syntax defining a schedule
+#    displayName: string # friendly name given to a specific schedule
+#    branches:
+#      include: [ string ] # which branches the schedule applies to
+#      exclude: [ string ] # which branches to exclude from the schedule
+
 pool:
   vmImage: 'windows-latest'
 
