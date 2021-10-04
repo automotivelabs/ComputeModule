@@ -29,6 +29,8 @@ steps:
   inputs:
     versionSpec: '5.x'
     
+- task: gitversion/execute@0
+
 - script: echo $(GitVersion.SemVer)
 - task: VSBuild@1
   inputs:
