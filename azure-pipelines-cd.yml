@@ -16,15 +16,20 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
+- task: gitversion/setup@0
+  inputs:
+    versionSpec: '5.x'
+
+- task: gitversion/execute@0
+  inputs:
+    updateAssemblyInfo: true
+
 - task: NuGetToolInstaller@1
 
 - task: NuGetCommand@2
   inputs:
     restoreSolution: '$(solution)'
 
-- task: gitversion/setup@0
-  inputs:
-    versionSpec: '5.x'
 
 
 - task: VSBuild@1
