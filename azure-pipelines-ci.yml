@@ -17,13 +17,6 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
-- task: gitversion/setup@0
-  inputs:
-    versionSpec: '1.x'
-- task: gitversion/execute@0
-  inputs:
-    useConfigFile: true
-    configFilePath: 'GitVersion.yml'
 
 - script: echo $(GitVersion.SemVer)
 - task: NuGetToolInstaller@1
@@ -32,6 +25,13 @@ steps:
   inputs:
     restoreSolution: '$(solution)'
 
+- task: gitversion/setup@0
+  inputs:
+    versionSpec: '1.x'
+- task: gitversion/execute@0
+  inputs:
+    useConfigFile: true
+    configFilePath: 'GitVersion.yml'
 - task: VSBuild@1
   inputs:
     solution: '$(solution)'
