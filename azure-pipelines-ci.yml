@@ -6,7 +6,6 @@
 pr:
 - main
 - develop
-- release/*
 
 pool:
   vmImage: 'windows-latest'
