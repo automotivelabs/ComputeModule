@@ -14,6 +14,8 @@ variables:
   solution: '**/*.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
+  nameFolderPublishNuget: 'PackageNuget'
+  nameFolderPublishWebApp: 'WebApp'
 
 steps:
 - task: gitversion/setup@0
@@ -30,27 +32,26 @@ steps:
   inputs:
     restoreSolution: '$(solution)'
 
-
-
 - task: VSBuild@1
   inputs:
     solution: '$(solution)'
-    msbuildArgs: '/p:Version="$(GitVersion.SemVer)" /p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation="$(build.artifactStagingDirectory)\WebApp.zip" /p:DeployIisAppPath="Default Web Site"'
+    msbuildArgs: '/p:Version="$(GitVersion.SemVer)" /p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation="$(build.artifactStagingDirectory)\$(nameFolderPublishWebApp)\WebApp.zip" /p:DeployIisAppPath="Default Web Site"'
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
-- task: VSTest@2
+- task: DotNetCoreCLI@2
   inputs:
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+    command: 'test'
+    projects: '$(System.DefaultWorkingDirectory)\src\Converters\ConvertUtilsTests\ConvertUtilTests\ConvertUtilTests.csproj'
 
 - task: CopyFiles@2
   displayName: 'Copy ConvertUtils NugetPackage to: $(Build.ArtifactStagingDirectory)'
   inputs:
     Contents: |
       src\Converters\ConvertUtils\bin\**\*.nupkg
-    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)\$(nameFolderPublishNuget)\\'
     flattenFolders: true
+
 
 - task: XplatGenerateReleaseNotes@3
   inputs:
@@ -89,5 +90,5 @@ steps:
 - task: PublishBuildArtifacts@1
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'ConvertUtilsPkg'
+    ArtifactName: 'ConvertUtils'
     publishLocation: 'Container'
