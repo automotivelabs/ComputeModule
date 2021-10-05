@@ -1,5 +1,7 @@
 <RunConfiguration>
+<RunSettings>
     <MaxCpuCount>1</MaxCpuCount>
     <TargetPlatform>AnyCPU</TargetPlatform>
     <TargetFrameworkVersion>.NETCoreApp,Version=v5.0</TargetFrameworkVersion>
+</RunSettings>
 </RunConfiguration>
