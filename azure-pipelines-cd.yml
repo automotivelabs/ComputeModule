@@ -14,6 +14,8 @@ variables:
   solution: '**/*.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
+  nameFolderPublishNuget: 'PackageNuget'
+  nameFolderPublishWebApp: 'WebApp'
 
 steps:
 - task: gitversion/setup@0
@@ -33,7 +35,7 @@ steps:
 - task: VSBuild@1
   inputs:
     solution: '$(solution)'
-    msbuildArgs: '/p:Version="$(GitVersion.SemVer)" /p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation="$(build.artifactStagingDirectory)\a\WebApp.zip" /p:DeployIisAppPath="Default Web Site"'
+    msbuildArgs: '/p:Version="$(GitVersion.SemVer)" /p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation="$(build.artifactStagingDirectory)\$(nameFolderPublishWebApp)\WebApp.zip" /p:DeployIisAppPath="Default Web Site"'
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
@@ -47,7 +49,7 @@ steps:
   inputs:
     Contents: |
       src\Converters\ConvertUtils\bin\**\*.nupkg
-    TargetFolder: '$(Build.ArtifactStagingDirectory)\b\\'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)\$(nameFolderPublishNuget)\\'
     flattenFolders: true
 
 
@@ -88,5 +90,5 @@ steps:
 - task: PublishBuildArtifacts@1
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'ConvertUtilsPkg'
+    ArtifactName: 'ConvertUtils'
     publishLocation: 'Container'
