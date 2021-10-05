@@ -48,7 +48,7 @@ steps:
       !**\*TestAdapter.dll
       !**\obj\**
     searchFolder: '$(System.DefaultWorkingDirectory)'
-    runSettingsFile: 'test.runsettings'
+    runSettingsFile: '$(System.DefaultWorkingDirectory)\src\Converters\ConvertUtilsTests\ConvertUtilTests\test.runsettings'
 - task: PublishTestResults@2
   inputs:
     testResultsFormat: 'XUnit'
