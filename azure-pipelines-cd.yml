@@ -52,15 +52,11 @@ steps:
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
     flattenFolders: true
 
-- task: PublishBuildArtifacts@1
-  inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'ConvertUtilsPkg'
-    publishLocation: 'Container'
+
 
 - task: XplatGenerateReleaseNotes@3
   inputs:
-    outputfile: 'dddd'
+    outputfile: '$(Build.ArtifactStagingDirectory)/releasenotes.md'
     templateLocation: 'InLine'
     inlinetemplate: |
       ## Build {{buildDetails.buildNumber}}
@@ -91,3 +87,9 @@ steps:
     getIndirectPullRequests: False
     stopOnError: False
     considerPartiallySuccessfulReleases: False
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'ConvertUtilsPkg'
+    publishLocation: 'Container'
