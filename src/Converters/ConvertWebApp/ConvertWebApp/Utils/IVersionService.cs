@@ -8,5 +8,6 @@ namespace ConvertWebApp.Utils
     public interface IVersionService
     {
         string Version { get; }
+        string FileVersion { get; }
     }
 }

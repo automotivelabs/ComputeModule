@@ -11,5 +11,8 @@ namespace ConvertWebApp.Utils
         public string Version =>
     Assembly.GetEntryAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
 
+        public string FileVersion =>
+            Assembly.GetEntryAssembly().GetCustomAttribute<AssemblyFileVersionAttribute>().Version;
+        
     }
 }
