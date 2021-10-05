@@ -50,6 +50,7 @@ steps:
   inputs:
     Contents: |
       src\Converters\ConvertUtils\bin\**\*.nupkg
+      !ConvertUtils.1.0.0.nupkg
     TargetFolder: '$(Build.ArtifactStagingDirectory)\$(nameFolderPublishNuget)\\'
     flattenFolders: true
 
