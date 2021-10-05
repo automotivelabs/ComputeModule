@@ -43,9 +43,8 @@ steps:
   inputs:
     command: 'test'
     projects: '$(System.DefaultWorkingDirectory)\src\Converters\ConvertUtilsTests\ConvertUtilTests\ConvertUtilTests.csproj'
-    versioningScheme: byEnvVar 
-    # byBuildNumber
-    versionEnvVar: $(GitVersion.SemVer)
+    versioningScheme: byEnvVar
+    #     versionEnvVar: $(GitVersion.SemVer)byBuildNumber
 - task: CopyFiles@2
   displayName: 'Copy ConvertUtils NugetPackage to: $(Build.ArtifactStagingDirectory)'
   inputs:
