@@ -52,8 +52,6 @@ steps:
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
     flattenFolders: true
 
-
-
 - task: XplatGenerateReleaseNotes@3
   inputs:
     outputfile: '$(Build.ArtifactStagingDirectory)/releasenotes.md'
