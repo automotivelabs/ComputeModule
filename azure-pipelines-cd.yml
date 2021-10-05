@@ -30,8 +30,6 @@ steps:
   inputs:
     restoreSolution: '$(solution)'
 
-
-
 - task: VSBuild@1
   inputs:
     solution: '$(solution)'
@@ -39,10 +37,10 @@ steps:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
-- task: VSTest@2
+- task: DotNetCoreCLI@2
   inputs:
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+    command: 'test'
+    projects: '$(System.DefaultWorkingDirectory)\src\Converters\ConvertUtilsTests\ConvertUtilTests\ConvertUtilTests.csproj'
 
 - task: CopyFiles@2
   displayName: 'Copy ConvertUtils NugetPackage to: $(Build.ArtifactStagingDirectory)'
