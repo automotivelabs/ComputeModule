@@ -1,5 +1,5 @@
 # Automotive Compute
-#task1
+
 This project is a sample project of compute modules for automotive
 
 
