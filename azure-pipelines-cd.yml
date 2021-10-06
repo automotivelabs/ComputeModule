@@ -49,8 +49,7 @@ steps:
   displayName: 'Copy ConvertUtils NugetPackage to: $(Build.ArtifactStagingDirectory)'
   inputs:
     Contents: |
-      !src\Converters\ConvertUtils\bin\**\ConvertUtils.1.0.0.nupkg
-      src\Converters\ConvertUtils\bin\**\*.nupkg
+      src\Converters\ConvertUtils\bin\$(buildConfiguration)\**\*.nupkg
       
     TargetFolder: '$(Build.ArtifactStagingDirectory)\$(nameFolderPublishNuget)\\'
     flattenFolders: true
