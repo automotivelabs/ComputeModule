@@ -15,48 +15,6 @@ variables:
   WikiPath: 'https://dev.azure.com/automotivelabs/ComputeModule/_apis/wiki/wikis/ComputeModuleWiki/pages?path=$(Build.BuildNuber)&api-version=6.0'
 
 steps:
-
-- task: XplatGenerateReleaseNotes@3
-  inputs:
-    outputfile: '$(Build.ArtifactStagingDirectory)/releasenotes.md'
-    templateLocation: 'InLine'
-    inlinetemplate: |
-      ## Build {{buildDetails.buildNumber}}
-            * **Branch**: {{buildDetails.sourceBranch}}
-            * **Tags**: {{buildDetails.tags}}
-            * **Completed**: {{buildDetails.finishTime}}
-            * **Previous Build**: {{compareBuildDetails.buildNumber}}
-      
-      ## Associated work items ##
-          # Global list of work items ({{workItems.length}})
-                    {{#forEach workItems}}
-                    {{#if isFirst}}## Associated Work Items (only shown if  WI) {{/if}}
-                    *  **{{this.id}}**  {{lookup this.fields 'System.Title'}}
-                      - **WIT** {{lookup this.fields 'System.WorkItemType'}} 
-                    {{/forEach}}
-    gitHubPat: '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'
-    dumpPayloadToConsole: false
-    dumpPayloadToFile: false
-    replaceFile: True
-    getParentsAndChildren: False
-    getAllParents: False
-    getIndirectPullRequests: False
-    stopOnError: False
-    considerPartiallySuccessfulReleases: False
-
-- task: WikiUpdaterTask@1
-  inputs:
-    repo: 'https://automotivelabs@dev.azure.com/automotivelabs/ComputeModule/_git/ComputeModuleWiki'
-    filename: '$(Build.BuildNumber).md'
-    replaceFile: True
-    dataIsFile: true
-    sourceFile: '$(Build.ArtifactStagingDirectory)/releasenotes.md'
-    message: 'Release notes for version $(Build.BuildNumber)'
-    gitname: 'guy'
-    gitemail: 'gunorth@microsoft.com'
-    localpath: '$(System.DefaultWorkingDirectory)\repo'    
-    user: 'Guy Northee'
-    password: '7724tqsar5pkzwqbrwkd6fvjmo4rthnbponhisrsvhsco2ii47nq'
 - task: NuGetToolInstaller@1
 - task: NuGetCommand@2
   inputs:
@@ -68,9 +26,6 @@ steps:
     
 - task: gitversion/execute@0
 
-
-    
-- script: echo $(GitVersion.SemVer)
 - task: VSBuild@1
   inputs:
     solution: '$(solution)'
