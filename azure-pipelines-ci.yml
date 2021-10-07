@@ -68,6 +68,8 @@ steps:
       $params = @{uri = 'https://dev.azure.com/automotivelabs/ComputeModule/_apis/wiki/wikis/ComputeModuleWiki/pages?path=tttt&api-version=6.0';
         Method = 'PUT';
         Headers = @{Authorization = "Bearer $(System.AccessToken)" };
+        Write-Host "This is a script that could use $env:SYSTEM_ACCESSTOKEN"
+        Write-Host "$env:SYSTEM_ACCESSTOKEN = $(System.AccessToken)"
         ContentType = "application/json";
         Body = $data;
       }
