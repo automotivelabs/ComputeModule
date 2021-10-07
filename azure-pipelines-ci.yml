@@ -12,7 +12,7 @@ variables:
   solution: '**/*.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
-  WikiPath: 'https://dev.azure.com/automotivelabs/ComputeModule/_apis/wiki/wikis/ComputeModuleWiki/pages?path=tttt&api-version=6.0'
+  WikiPath: 'https://dev.azure.com/automotivelabs/ComputeModule/_apis/wiki/wikis/ComputeModuleWiki/pages?path=$(Build.BuildNuber)&api-version=6.0'
 
 steps:
 
@@ -47,11 +47,11 @@ steps:
 - task: WikiUpdaterTask@1
   inputs:
     repo: 'https://automotivelabs@dev.azure.com/automotivelabs/ComputeModule/_git/ComputeModuleWiki'
-    filename: 'm.md'
+    filename: '$(Build.BuildNuber).md'
     replaceFile: True
     dataIsFile: true
     sourceFile: '$(Build.ArtifactStagingDirectory)/releasenotes.md'
-    message: 'add md'
+    message: 'Release notes for version $(Build.BuildNuber)'
     gitname: 'guy'
     gitemail: 'gunorth@microsoft.com'
     localpath: '$(System.DefaultWorkingDirectory)\repo'    
