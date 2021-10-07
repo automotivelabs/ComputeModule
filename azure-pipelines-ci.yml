@@ -54,9 +54,10 @@ steps:
     message: 'add md'
     gitname: 'guy'
     gitemail: 'gunorth@microsoft.com'
-    localpath: '$(System.DefaultWorkingDirectory)\repo'
+    localpath: '$(System.DefaultWorkingDirectory)\repo'    
+    user: 'Guy Northee'
+    password: '7724tqsar5pkzwqbrwkd6fvjmo4rthnbponhisrsvhsco2ii47nq'
 - task: NuGetToolInstaller@1
-
 - task: NuGetCommand@2
   inputs:
     restoreSolution: '$(solution)'
