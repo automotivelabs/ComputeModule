@@ -16,7 +16,6 @@ variables:
   buildConfiguration: 'Release'
   nameFolderPublishNuget: 'PackageNuget'
   nameFolderPublishWebApp: 'WebApp'
-  WikiPath: 'https://dev.azure.com/automotivelabs/ComputeModule/_apis/wiki/wikis/ComputeModuleWiki/pages?path=$(Build.BuildNumber)&api-version=6.0'
 
 steps:
 - task: gitversion/setup@0
@@ -55,7 +54,6 @@ steps:
     TargetFolder: '$(Build.ArtifactStagingDirectory)\$(nameFolderPublishNuget)\\'
     flattenFolders: true
 
-
 - task: XplatGenerateReleaseNotes@3
   inputs:
     outputfile: '$(Build.ArtifactStagingDirectory)/releasenotes.md'
@@ -84,22 +82,20 @@ steps:
     stopOnError: False
     considerPartiallySuccessfulReleases: False
 
-- task: PowerShell@2
+- task: WikiUpdaterTask@1
   inputs:
-    targetType: 'inline'
-    script: |
-      # Write your PowerShell commands here.
-      $content = [IO.File]::ReadAllText("$(Build.ArtifactStagingDirectory)\releasenotes.md")
-      $data = @{content=$content;} | ConvertTo-Json;
-      $params = @{uri = '$(WikiPath)';
-        Method = 'PUT';
-        Headers = @{Authorization = "Bearer $(System.AccessToken)" };
-        ContentType = "application/json";
-        Body = $data;
-      }
-      Invoke-WebRequest @params
-  env:
-    SYSTEM_ACCESSTOKEN: $(System.AccessToken)
+    repo: 'https://automotivelabs@dev.azure.com/automotivelabs/ComputeModule/_git/ComputeModuleWiki'
+    filename: '$(Build.BuildNumber).md'
+    replaceFile: True
+    dataIsFile: true
+    sourceFile: '$(Build.ArtifactStagingDirectory)/releasenotes.md'
+    message: 'Release notes for version $(Build.BuildNumber)'
+    gitname: 'guy'
+    gitemail: 'gunorth@microsoft.com'
+    localpath: '$(System.DefaultWorkingDirectory)\repo'    
+    user: 'Guy Northee'
+    password: '7724tqsar5pkzwqbrwkd6fvjmo4rthnbponhisrsvhsco2ii47nq'
+
 - task: PublishBuildArtifacts@1
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
