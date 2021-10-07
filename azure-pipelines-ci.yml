@@ -12,6 +12,7 @@ variables:
   solution: '**/*.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
+  WikiPath: 'https://dev.azure.com/automotivelabs/ComputeModule/_apis/wiki/wikis/ComputeModuleWiki/pages?path=tttt&api-version=6.0'
 
 steps:
 
@@ -27,6 +28,51 @@ steps:
     versionSpec: '5.x'
     
 - task: gitversion/execute@0
+
+- task: XplatGenerateReleaseNotes@3
+  inputs:
+    outputfile: '$(Build.ArtifactStagingDirectory)/releasenotes.md'
+    templateLocation: 'InLine'
+    inlinetemplate: |
+      ## Build {{buildDetails.buildNumber}}
+            * **Branch**: {{buildDetails.sourceBranch}}
+            * **Tags**: {{buildDetails.tags}}
+            * **Completed**: {{buildDetails.finishTime}}
+            * **Previous Build**: {{compareBuildDetails.buildNumber}}
+      
+      ## Associated work items ##
+          # Global list of work items ({{workItems.length}})
+                    {{#forEach workItems}}
+                    {{#if isFirst}}## Associated Work Items (only shown if  WI) {{/if}}
+                    *  **{{this.id}}**  {{lookup this.fields 'System.Title'}}
+                      - **WIT** {{lookup this.fields 'System.WorkItemType'}} 
+                    {{/forEach}}
+    gitHubPat: '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'
+    dumpPayloadToConsole: false
+    dumpPayloadToFile: false
+    replaceFile: True
+    getParentsAndChildren: False
+    getAllParents: False
+    getIndirectPullRequests: False
+    stopOnError: False
+    considerPartiallySuccessfulReleases: False
+
+- task: PowerShell@2
+  inputs:
+    targetType: 'inline'
+    script: |
+      # Write your PowerShell commands here.
+      $content = [IO.File]::ReadAllText("$(Build.ArtifactStagingDirectory)\releasenotes.md")
+      $data = @{content=$content;} | ConvertTo-Json;
+      $params = @{uri = '$(WikiPath)';
+        Method = 'PUT';
+        Headers = @{Authorization = "Bearer $(System.AccessToken)" };
+        ContentType = "application/json";
+        Body = $data;
+      }
+      Invoke-WebRequest @params
+  env:
+    SYSTEM_ACCESSTOKEN: $(System.AccessToken)
 
 - script: echo $(GitVersion.SemVer)
 - task: VSBuild@1
