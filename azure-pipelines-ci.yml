@@ -66,10 +66,11 @@ steps:
       $content = [IO.File]::ReadAllText("$(Build.ArtifactStagingDirectory)\releasenotes.md")
       $data = @{content=$content;} | ConvertTo-Json;
       $params = @{uri = 'https://dev.azure.com/automotivelabs/ComputeModule/_apis/wiki/wikis/ComputeModuleWiki/pages?path=tttt&api-version=6.0';
-        Method = 'PUT';
-        Headers = @{Authorization = "Bearer $(System.AccessToken)" };
+        Method = 'PUT';        
         Write-Host "This is a script that could use $env:SYSTEM_ACCESSTOKEN"
-        Write-Host "rrrr $env:SYSTEM_ACCESSTOKEN = aaaa $(System.AccessToken)"
+        Write-Host "$env:SYSTEM_ACCESSTOKEN = $(System.AccessToken)"
+        Write-Host "aaa $env:SYSTEM_ACCESSTOKEN"
+        Headers = @{Authorization = "Bearer $env:SYSTEM_ACCESSTOKEN" };
         ContentType = "application/json";
         Body = $data;
       }
