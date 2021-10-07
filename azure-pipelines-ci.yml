@@ -51,7 +51,7 @@ steps:
     replaceFile: True
     dataIsFile: true
     sourceFile: '$(Build.ArtifactStagingDirectory)/releasenotes.md'
-    message: 'Release notes for version $(Build.BuildNuber)'
+    message: 'Release notes for version $(Build.BuildNumber)'
     gitname: 'guy'
     gitemail: 'gunorth@microsoft.com'
     localpath: '$(System.DefaultWorkingDirectory)\repo'    
