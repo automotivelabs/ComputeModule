@@ -16,7 +16,23 @@ variables:
 
 steps:
 
-
+- task: PowerShell@2
+  inputs:
+    targetType: 'inline'
+    script: |
+      # Write your PowerShell commands here.
+      Write-Host "Hello World $env:SYSTEM_ACCESSTOKEN"
+      # $content = [IO.File]::ReadAllText("$(Build.ArtifactStagingDirectory)\releasenotes.md")
+      # $data = @{content=$content;} | ConvertTo-Json;
+      $params = @{uri = 'https://dev.azure.com/automotivelabs/ComputeModule/_apis/wiki/wikis/ComputeModuleWiki/pages?path=tttt&api-version=6.0';
+        Method = 'PUT';        
+        Headers = @{Authorization = "Bearer $env:SYSTEM_ACCESSTOKEN" };
+        ContentType = "application/json";
+        Body = '';
+      }
+      Invoke-WebRequest @params
+  env:
+    SYSTEM_ACCESSTOKEN: $(system.accesstoken)
 - task: NuGetToolInstaller@1
 
 - task: NuGetCommand@2
@@ -57,22 +73,7 @@ steps:
     stopOnError: False
     considerPartiallySuccessfulReleases: False
 
-- task: PowerShell@2
-  inputs:
-    targetType: 'inline'
-    script: |
-      # Write your PowerShell commands here.
-      $content = [IO.File]::ReadAllText("$(Build.ArtifactStagingDirectory)\releasenotes.md")
-      $data = @{content=$content;} | ConvertTo-Json;
-      $params = @{uri = 'https://dev.azure.com/automotivelabs/ComputeModule/_apis/wiki/wikis/ComputeModuleWiki/pages?path=tttt&api-version=6.0';
-        Method = 'PUT';        
-        Headers = @{Authorization = "Bearer $env:SYSTEM_ACCESSTOKEN" };
-        ContentType = "application/json";
-        Body = $data;
-      }
-      Invoke-WebRequest @params
-  env:
-    SYSTEM_ACCESSTOKEN: $(system.accesstoken)
+
     
 - script: echo $(GitVersion.SemVer)
 - task: VSBuild@1
