@@ -16,35 +16,6 @@ variables:
 
 steps:
 
-- task: PowerShell@2
-  inputs:
-    targetType: 'inline'
-    script: |
-      # Write your PowerShell commands here.
-      Write-Host "Hello World $env:SYSTEM_ACCESSTOKEN"
-      # $content = [IO.File]::ReadAllText("$(Build.ArtifactStagingDirectory)\releasenotes.md")
-      # $data = @{content=$content;} | ConvertTo-Json;
-      $params = @{uri = 'https://dev.azure.com/automotivelabs/ComputeModule/_apis/wiki/wikis/ComputeModuleWiki/pages?path=tttt&api-version=6.0';
-        Method = 'PUT';        
-        Headers = @{Authorization = "Bearer $env:SYSTEM_ACCESSTOKEN" };
-        ContentType = "application/json";
-        Body = '';
-      }
-      Invoke-WebRequest @params
-  env:
-    SYSTEM_ACCESSTOKEN: $(system.accesstoken)
-- task: NuGetToolInstaller@1
-
-- task: NuGetCommand@2
-  inputs:
-    restoreSolution: '$(solution)'
-
-- task: gitversion/setup@0
-  inputs:
-    versionSpec: '5.x'
-    
-- task: gitversion/execute@0
-
 - task: XplatGenerateReleaseNotes@3
   inputs:
     outputfile: '$(Build.ArtifactStagingDirectory)/releasenotes.md'
@@ -72,6 +43,29 @@ steps:
     getIndirectPullRequests: False
     stopOnError: False
     considerPartiallySuccessfulReleases: False
+
+- task: WikiUpdaterTask@1
+  inputs:
+    repo: 'https://automotivelabs@dev.azure.com/automotivelabs/ComputeModule/_git/ComputeModuleWiki'
+    filename: 'm.md'
+    replaceFile: True
+    dataIsFile: true
+    sourceFile: '$(Build.ArtifactStagingDirectory)/releasenotes.md'
+    message: 'add md'
+    gitname: 'guy'
+    gitemail: 'gunorth@microsoft.com'
+    localpath: '$(System.DefaultWorkingDirectory)\repo'
+- task: NuGetToolInstaller@1
+
+- task: NuGetCommand@2
+  inputs:
+    restoreSolution: '$(solution)'
+
+- task: gitversion/setup@0
+  inputs:
+    versionSpec: '5.x'
+    
+- task: gitversion/execute@0
 
 
     
