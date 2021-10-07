@@ -88,7 +88,7 @@ steps:
     targetType: 'inline'
     script: |
       # Write your PowerShell commands here.
-      $content = [IO.File]::ReadAllText("$(System.DefaultWorkingDirectory)\releasenotes.md")
+      $content = [IO.File]::ReadAllText("$(Build.ArtifactStagingDirectory)\releasenotes.md")
       $data = @{content=$content;} | ConvertTo-Json;
       $params = @{uri = '$(WikiPath)';
         Method = 'PUT';
