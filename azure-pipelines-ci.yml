@@ -57,6 +57,7 @@ steps:
     stopOnError: False
     considerPartiallySuccessfulReleases: False
 
+
 - task: PowerShell@2
   inputs:
     targetType: 'inline'
@@ -64,7 +65,7 @@ steps:
       # Write your PowerShell commands here.
       $content = [IO.File]::ReadAllText("$(Build.ArtifactStagingDirectory)\releasenotes.md")
       $data = @{content=$content;} | ConvertTo-Json;
-      $params = @{uri = '$(WikiPath)';
+      $params = @{uri = 'https://dev.azure.com/automotivelabs/ComputeModule/_apis/wiki/wikis/ComputeModuleWiki/pages?path=tttt&api-version=6.0';
         Method = 'PUT';
         Headers = @{Authorization = "Bearer $(System.AccessToken)" };
         ContentType = "application/json";
@@ -72,6 +73,7 @@ steps:
       }
       Invoke-WebRequest @params
   env:
+    Build_ArtifactStagingDirectory: $(System.AccessToken)
     SYSTEM_ACCESSTOKEN: $(System.AccessToken)
 
 - script: echo $(GitVersion.SemVer)
