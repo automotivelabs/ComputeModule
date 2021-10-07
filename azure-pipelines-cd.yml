@@ -83,9 +83,24 @@ steps:
     stopOnError: False
     considerPartiallySuccessfulReleases: False
 
+- task: PowerShell@2
+  inputs:
+    targetType: 'inline'
+    script: |
+      # Write your PowerShell commands here.
+      $content = [IO.File]::ReadAllText("$(System.DefaultWorkingDirectory)\releasenotes.md")
+      $data = @{content=$content;} | ConvertTo-Json;
+      $params = @{uri = '$(WikiPath)';
+        Method = 'PUT';
+        Headers = @{Authorization = "Bearer $(System.AccessToken)" };
+        ContentType = "application/json";
+        Body = $data;
+      }
+      Invoke-WebRequest @params
 - task: PublishBuildArtifacts@1
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'ConvertUtils'
     publishLocation: 'Container'
+
 
