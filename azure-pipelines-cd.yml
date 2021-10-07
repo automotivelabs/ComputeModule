@@ -61,25 +61,19 @@ steps:
     templateLocation: 'InLine'
     inlinetemplate: |
       ## Build {{buildDetails.buildNumber}}
-      * **Branch**: {{buildDetails.sourceBranch}}
-      * **Tags**: {{buildDetails.tags}}
-      * **Completed**: {{buildDetails.finishTime}}
-      * **Previous Build**: {{compareBuildDetails.buildNumber}}
+            * **Branch**: {{buildDetails.sourceBranch}}
+            * **Tags**: {{buildDetails.tags}}
+            * **Completed**: {{buildDetails.finishTime}}
+            * **Previous Build**: {{compareBuildDetails.buildNumber}}
       
-      ## Associated Pull Requests ({{pullRequests.length}})
-      {{#forEach pullRequests}}
-      * **[{{this.pullRequestId}}]({{replace (replace this.url "_apis/git/repositories" "_git") "pullRequests" "pullRequest"}})** {{this.title}}
-      * Associated Work Items
-      {{#forEach this.associatedWorkitems}}
-         {{#with (lookup_a_work_item ../../relatedWorkItems this.url)}}
-          - [{{this.id}}]({{replace this.url "_apis/wit/workItems" "_workitems/edit"}}) - {{lookup this.fields 'System.Title'}}
-         {{/with}}
-      {{/forEach}}
-      * Associated Commits (this includes commits on the PR source branch not associated directly with the build)
-      {{#forEach this.associatedCommits}}
-          - [{{this.commitId}}]({{this.remoteUrl}}) -  {{this.comment}}
-      {{/forEach}}
-      {{/forEach}}
+      ## Associated work items ##
+          # Global list of work items ({{workItems.length}})
+                    {{#forEach workItems}}
+                    {{#if isFirst}}## Associated Work Items (only shown if  WI) {{/if}}
+                    *  **{{this.id}}**  {{lookup this.fields 'System.Title'}}
+                      - **WIT** {{lookup this.fields 'System.WorkItemType'}} 
+                    {{/forEach}}
+    gitHubPat: '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'
     dumpPayloadToConsole: false
     dumpPayloadToFile: false
     replaceFile: True
@@ -94,3 +88,4 @@ steps:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'ConvertUtils'
     publishLocation: 'Container'
+
