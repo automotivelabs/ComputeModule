@@ -47,7 +47,7 @@ steps:
 - task: WikiUpdaterTask@1
   inputs:
     repo: 'https://automotivelabs@dev.azure.com/automotivelabs/ComputeModule/_git/ComputeModuleWiki'
-    filename: '$(Build.BuildNuber).md'
+    filename: '$(Build.BuildNumber).md'
     replaceFile: True
     dataIsFile: true
     sourceFile: '$(Build.ArtifactStagingDirectory)/releasenotes.md'
