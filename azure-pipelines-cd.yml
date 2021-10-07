@@ -17,6 +17,7 @@ variables:
   nameFolderPublishNuget: 'PackageNuget'
   nameFolderPublishWebApp: 'WebApp'
   WikiPath: 'https://dev.azure.com/automotivelabs/ComputeModule/_apis/wiki/wikis/ComputeModuleWiki/pages?path=$(Build.BuildNumber)&api-version=6.0'
+
 steps:
 - task: gitversion/setup@0
   inputs:
@@ -97,6 +98,8 @@ steps:
         Body = $data;
       }
       Invoke-WebRequest @params
+  env:
+    SYSTEM_ACCESSTOKEN: $(System.AccessToken)
 - task: PublishBuildArtifacts@1
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
