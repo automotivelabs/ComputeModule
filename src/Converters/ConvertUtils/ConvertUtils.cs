@@ -15,5 +15,24 @@ namespace ConvertUtils
             return value / MILE_KILOMETER_RATIO;
         }
 
+
+/*
+    <summary>
+        Converts temperature from Celsius to Fahrenheit.
+        <param name="value">Temperature in Celsius</param>
+        <returns>Temperature in Fahrenheit</returns>    
+    </summary>
+
+*/
+        public static double CelsiusToFahrenheit(double value)
+        {
+            return value * 1.8 + 32;
+        }
+
+        public static double FahrenheitToCelsius(double value)
+        {
+            return (value - 32) / 1.8;
+        }
+
     }
 }
