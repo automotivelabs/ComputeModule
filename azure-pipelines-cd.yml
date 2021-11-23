@@ -54,32 +54,22 @@ steps:
     TargetFolder: '$(Build.ArtifactStagingDirectory)\$(nameFolderPublishNuget)\\'
     flattenFolders: true
 
-
 - task: XplatGenerateReleaseNotes@3
   inputs:
     outputfile: '$(Build.ArtifactStagingDirectory)/releasenotes.md'
     templateLocation: 'InLine'
     inlinetemplate: |
       ## Build {{buildDetails.buildNumber}}
-      * **Branch**: {{buildDetails.sourceBranch}}
-      * **Tags**: {{buildDetails.tags}}
-      * **Completed**: {{buildDetails.finishTime}}
-      * **Previous Build**: {{compareBuildDetails.buildNumber}}
+            * **Branch**: {{buildDetails.sourceBranch}}
+            * **Tags**: {{buildDetails.tags}}
+            * **Completed**: {{buildDetails.finishTime}}
+            * **Previous Build**: {{compareBuildDetails.buildNumber}}
       
-      ## Associated Pull Requests ({{pullRequests.length}})
-      {{#forEach pullRequests}}
-      * **[{{this.pullRequestId}}]({{replace (replace this.url "_apis/git/repositories" "_git") "pullRequests" "pullRequest"}})** {{this.title}}
-      * Associated Work Items
-      {{#forEach this.associatedWorkitems}}
-         {{#with (lookup_a_work_item ../../relatedWorkItems this.url)}}
-          - [{{this.id}}]({{replace this.url "_apis/wit/workItems" "_workitems/edit"}}) - {{lookup this.fields 'System.Title'}}
-         {{/with}}
-      {{/forEach}}
-      * Associated Commits (this includes commits on the PR source branch not associated directly with the build)
-      {{#forEach this.associatedCommits}}
-          - [{{this.commitId}}]({{this.remoteUrl}}) -  {{this.comment}}
-      {{/forEach}}
-      {{/forEach}}
+      ## Associated work items ({{workItems.length}}) ##
+        {{#forEach workItems}}
+        - {{lookup this.fields 'System.WorkItemType'}} ({{this.id}})  **{{lookup this.fields 'System.Title'}}**
+        {{/forEach}}
+    gitHubPat: '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'
     dumpPayloadToConsole: false
     dumpPayloadToFile: false
     replaceFile: True
@@ -89,8 +79,24 @@ steps:
     stopOnError: False
     considerPartiallySuccessfulReleases: False
 
+- task: WikiUpdaterTask@1
+  inputs:
+    repo: 'https://automotivelabs@dev.azure.com/automotivelabs/ComputeModule/_git/ComputeModuleWiki'
+    filename: '$(Build.BuildNumber).md'
+    replaceFile: True
+    dataIsFile: true
+    sourceFile: '$(Build.ArtifactStagingDirectory)/releasenotes.md'
+    message: 'Release notes for version $(Build.BuildNumber)'
+    gitname: 'guy'
+    gitemail: 'gunorth@microsoft.com'
+    localpath: '$(System.DefaultWorkingDirectory)\repo'    
+    user: 'Guy Northee'
+    password: '7724tqsar5pkzwqbrwkd6fvjmo4rthnbponhisrsvhsco2ii47nq'
+
 - task: PublishBuildArtifacts@1
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'ConvertUtils'
     publishLocation: 'Container'
+
+

@@ -2,7 +2,6 @@
 # Build and test ASP.NET Core projects targeting the full .NET Framework.
 # Add steps that publish symbols, save build artifacts, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
-
 pool:
   vmImage: 'windows-latest'
 
@@ -10,12 +9,10 @@ variables:
   solution: '**/*.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
+  WikiPath: 'https://dev.azure.com/automotivelabs/ComputeModule/_apis/wiki/wikis/ComputeModuleWiki/pages?path=$(Build.BuildNuber)&api-version=6.0'
 
 steps:
-
-
 - task: NuGetToolInstaller@1
-
 - task: NuGetCommand@2
   inputs:
     restoreSolution: '$(solution)'
@@ -26,7 +23,6 @@ steps:
     
 - task: gitversion/execute@0
 
-- script: echo $(GitVersion.SemVer)
 - task: VSBuild@1
   inputs:
     solution: '$(solution)'

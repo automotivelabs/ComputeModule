@@ -15,7 +15,6 @@ namespace ConvertUtils
             return value / MILE_KILOMETER_RATIO;
         }
 
-
 /*
     <summary>
         Converts temperature from Celsius to Fahrenheit.
