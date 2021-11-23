@@ -15,5 +15,15 @@ namespace ConvertUtils
             return value / MILE_KILOMETER_RATIO;
         }
 
+        public static double CelsiusToFahrenheit(double value)
+        {
+            return value * 1.8 + 32;
+        }
+
+        public static double FahrenheitToCelsius(double value)
+        {
+            return (value - 32) / 1.8;
+        }
+
     }
 }
