@@ -79,19 +79,6 @@ steps:
     stopOnError: False
     considerPartiallySuccessfulReleases: False
 
-- task: WikiUpdaterTask@1
-  inputs:
-    repo: 'https://automotivelabs@dev.azure.com/automotivelabs/ComputeModule/_git/ComputeModuleWiki'
-    filename: '$(Build.BuildNumber).md'
-    replaceFile: True
-    dataIsFile: true
-    sourceFile: '$(Build.ArtifactStagingDirectory)/releasenotes.md'
-    message: 'Release notes for version $(Build.BuildNumber)'
-    gitname: 'guy'
-    gitemail: 'gunorth@microsoft.com'
-    localpath: '$(System.DefaultWorkingDirectory)\repo'    
-    user: 'Guy Northee'
-    password: '7724tqsar5pkzwqbrwkd6fvjmo4rthnbponhisrsvhsco2ii47nq'
 
 - task: PublishBuildArtifacts@1
   inputs:
