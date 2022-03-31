@@ -2,6 +2,7 @@
 
 namespace ConvertUtils
 {
+    // Converters methods
     public static class ConvertUtils
     {
         public const double MILE_KILOMETER_RATIO = 1.609344;
@@ -34,12 +35,12 @@ namespace ConvertUtils
             return (value - 32) / 1.8;
         }
         
-        public static double ConvertToDegree(this double rad)
+        public  static double ConvertToDegree(double rad)
         {
             return (180 / Math.PI) * rad;
         }
         
-        public static double ConvertToRadians(this double angle)
+        public static double ConvertToRadians(double angle)
         {
             return (System.Math.PI / 180) * angle;
         }

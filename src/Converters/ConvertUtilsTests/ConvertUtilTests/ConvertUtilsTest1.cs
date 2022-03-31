@@ -5,6 +5,7 @@ using Xunit;
 /* Unit Tests */
 namespace ConvertUtilTests
 {
+    // Tests
     public class ConvertUtilsTest1
     {
         [Fact]
@@ -17,7 +18,7 @@ namespace ConvertUtilTests
         [Fact]
         public void MilesToKilometers_Ko()
         {
-            //Test1
+            //Test2
             Assert.NotEqual(ConvertUtils.ConvertUtils.MilesToKilometers(2), ConvertUtils.ConvertUtils.MILE_KILOMETER_RATIO);
         }
 
