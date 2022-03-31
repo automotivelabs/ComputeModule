@@ -28,4 +28,3 @@ jobs:
       run: dotnet test
       working-directory: ./src/Converters/ConvertUtils
 
-
