@@ -42,6 +42,5 @@ namespace ConvertUtils
         {
             return (System.Math.PI / 180) * angle;
         }
-
     }
 }
