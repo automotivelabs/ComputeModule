@@ -2,6 +2,7 @@
 
 namespace ConvertUtils
 {
+    // Converters methods
     public static class ConvertUtils
     {
         public const double MILE_KILOMETER_RATIO = 1.609344;
