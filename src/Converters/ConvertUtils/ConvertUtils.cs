@@ -25,6 +25,8 @@ namespace ConvertUtils
 
 */
 
+
+
         public static double CelsiusToFahrenheit(double value)
         {
             return value * 1.8 + 32;
