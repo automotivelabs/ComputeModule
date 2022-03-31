@@ -33,12 +33,12 @@ namespace ConvertUtils
             return (value - 32) / 1.8;
         }
         
-        public double ConvertToDegree(double rad)
+        public  static double ConvertToDegree(double rad)
         {
             return (180 / Math.PI) * rad;
         }
         
-        public double ConvertToRadians(double angle)
+        public static double ConvertToRadians(double angle)
         {
             return (System.Math.PI / 180) * angle;
         }
