@@ -3,7 +3,7 @@
 # Add steps that publish symbols, save build artifacts, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
 pool:
-  vmImage: 'windows-latest'
+  vmImage: 'windows-2019'
 
 variables:
   solution: '**/*.sln'
